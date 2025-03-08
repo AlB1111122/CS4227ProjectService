@@ -70,7 +70,7 @@ const NewEventForm = ({ timelineId }: { timelineId: number }) => {
         maxWidth: "100%",
         width: "100%",
         margin: 0,
-        padding: 0,
+        paddingTop: 3,
         boxShadow: 3,
         borderRadius: 2,
         backgroundColor: "white",
