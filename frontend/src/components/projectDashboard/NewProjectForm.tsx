@@ -48,6 +48,7 @@ const NewProjectForm: React.FC<NewProjectFormProps> = ({ user }) => {
           role: "OWNER",
           project_id: body.id,
         };
+        // @ts-ignore
         const memberResponse = await fetch(API_SERVER + "project_member/", {
           method: "POST",
           headers: {

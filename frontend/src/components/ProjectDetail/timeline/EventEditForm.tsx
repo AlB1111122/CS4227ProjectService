@@ -15,7 +15,7 @@ import { API_SERVER } from "../../../consts";
 const EventEditForm = ({ event }: { event: Event }) => {
   const [formData, setFormData] = useState({ ...event });
 
-  const handleChange = (e) => {
+  const handleChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -23,14 +23,16 @@ const EventEditForm = ({ event }: { event: Event }) => {
   const getUpdatedFields = () => {
     const updatedFields = {};
     Object.keys(formData).forEach((key) => {
+      // @ts-ignore
       if (formData[key] !== event[key]) {
+        // @ts-ignore
         updatedFields[key] = formData[key];
       }
     });
     return updatedFields;
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     const updatedFields = getUpdatedFields();
     console.log(JSON.stringify(updatedFields));
