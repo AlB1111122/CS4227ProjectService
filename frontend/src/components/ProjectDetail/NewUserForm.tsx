@@ -8,6 +8,7 @@ import {
   InputLabel,
   Box,
   Typography,
+  SelectChangeEvent,
 } from "@mui/material";
 import { API_SERVER } from "../../consts";
 
@@ -19,7 +20,9 @@ const UserRoleForm = ({ projectId }: { projectId: number | undefined }) => {
   });
 
   const handleChange = (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>
+    event:
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | SelectChangeEvent
   ) => {
     const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name as string]: value }));

@@ -3,12 +3,12 @@ import { API_SERVER } from "../../../consts";
 import { Box, Button, TextField, Typography } from "@mui/material";
 
 const NewEventForm = ({ timelineId }: { timelineId: number | undefined }) => {
-  const [selectedFile, setSelectedFile] = useState([]);
+  const [selectedFiles, setSelectedFiles] = useState<File[] | null>(null);
 
   const handleFileChange = (e: { target: { files: any } }) => {
     const files = e.target.files;
     if (files) {
-      setSelectedFile(files);
+      setSelectedFiles(files);
     }
   };
 
@@ -148,10 +148,10 @@ const NewEventForm = ({ timelineId }: { timelineId: number | undefined }) => {
           </Button>
         </label>
 
-        {selectedFile[0] && ( //not integrated with doc service, does nothing
+        {selectedFiles && ( //not integrated with doc service, does nothing
           <Typography mt={2}>
-            Selected File: {selectedFile[0].name} (
-            {(selectedFile[0].size / 1024).toFixed(2)} KB)
+            Selected File: {selectedFiles[0].name} (
+            {(selectedFiles[0].size / 1024).toFixed(2)} KB)
           </Typography>
         )}
       </div>
