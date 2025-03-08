@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { API_SERVER } from "../../consts";
 
-const UserRoleForm = ({ projectId }: { projectId: number }) => {
+const UserRoleForm = ({ projectId }: { projectId: number | undefined }) => {
   const [formData, setFormData] = useState({
     user_id: "",
     role: "",

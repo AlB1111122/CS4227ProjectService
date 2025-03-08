@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { API_SERVER } from "../../../consts";
 import { Box, Button, TextField, Typography } from "@mui/material";
 
-const NewEventForm = ({ timelineId }: { timelineId: number }) => {
+const NewEventForm = ({ timelineId }: { timelineId: number | undefined }) => {
   const [selectedFile, setSelectedFile] = useState([]);
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e: { target: { files: any } }) => {
     const files = e.target.files;
     if (files) {
       setSelectedFile(files);
@@ -23,7 +23,7 @@ const NewEventForm = ({ timelineId }: { timelineId: number }) => {
     type: null,
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -31,7 +31,7 @@ const NewEventForm = ({ timelineId }: { timelineId: number }) => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
     const dataToSend = {

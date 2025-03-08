@@ -64,7 +64,7 @@ const ProjectDetailPage: React.FC = () => {
   if (!loading) {
     return (
       <div>
-        <Header main={project.name} sub={project.description} />
+        <Header main={project?.name} sub={project?.description} />
         <div
           style={{
             width: "100%",
@@ -78,18 +78,18 @@ const ProjectDetailPage: React.FC = () => {
             events={events}
             timeline={timeline}
             editPermission={
-              projectMember.role == "OWNER" || projectMember.role == "EDITOR"
+              projectMember?.role == "OWNER" || projectMember?.role == "EDITOR"
             }
           />
         </div>
         <Stack direction={"row"} width={"100%"} paddingTop={1}>
-          {projectMember.role == "OWNER" || projectMember.role == "EDITOR" ? (
-            <NewEventForm timelineId={timeline.id} />
+          {projectMember?.role == "OWNER" || projectMember?.role == "EDITOR" ? (
+            <NewEventForm timelineId={timeline?.id} />
           ) : null}
-          {projectMember.role == "OWNER" ? (
+          {projectMember?.role == "OWNER" ? (
             <Stack direction={"column"} width={"100%"} maxHeight={"100%"}>
-              <NewUserForm projectId={project.id} />
-              <EditProjectForm projectId={project.id} />
+              <NewUserForm projectId={project?.id} />
+              <EditProjectForm projectId={project?.id} />
             </Stack>
           ) : null}
         </Stack>

@@ -3,7 +3,7 @@ import { TextField, Button, Box, Typography } from "@mui/material";
 import { API_SERVER } from "../../consts";
 import { Delete } from "@mui/icons-material";
 
-const EditProjectForm = ({ projectId }: { projectId: number }) => {
+const EditProjectForm = ({ projectId }: { projectId: number | undefined }) => {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
