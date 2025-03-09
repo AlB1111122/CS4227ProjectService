@@ -33,6 +33,7 @@ const useSubmitEvent = (formData: any) => {
         setError(response.statusText);
         console.error("Error:", response.statusText);
       }
+      window.location.reload();
     } catch (error) {
       setError("Error submitting event");
       console.error("Error:", error);

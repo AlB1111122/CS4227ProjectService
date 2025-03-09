@@ -55,6 +55,7 @@ const useNewProjectForm = (user?: string) => {
           body: JSON.stringify(newMember),
         });
       }
+      window.location.reload();
     } catch (error) {
       console.error("Error adding project:", error);
     }

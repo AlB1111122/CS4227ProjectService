@@ -17,6 +17,7 @@ export const useEventUpdate = (eventId: number) => {
       if (!response.ok) {
         throw new Error("Failed to update event");
       }
+      window.location.reload();
     } catch (err: any) {
       setError(err.message);
     } finally {

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { API_SERVER } from "../consts";
+import { useNavigate } from "react-router";
 
 const useEditProjectForm = (projectId: number) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -30,6 +32,7 @@ const useEditProjectForm = (projectId: number) => {
       } else {
         console.error("Error:", response.statusText);
       }
+      window.location.reload();
     } catch (error) {
       console.error("Error:", error);
     }
@@ -45,6 +48,7 @@ const useEditProjectForm = (projectId: number) => {
         throw new Error("Failed to delete project");
       }
       console.log("Project deleted successfully");
+      navigate(`/user/${projectId}/projects`);
     } catch (error) {
       console.error("Error deleting project:", error);
     }
