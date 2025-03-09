@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import useNewEventProcessFormData from "../../../hooks/useNewEventProcessFormData";
 import useFileUpload from "../../../hooks/useFileUpload";
-import useSubmitEvent from "../../../hooks/useNewEvent";
+import useSubmitEvent from "../../../hooks/posts/useNewEvent";
 
 const NewEventForm = ({ timelineId }: { timelineId: number | undefined }) => {
   const { selectedFiles, handleFileChange } = useFileUpload();

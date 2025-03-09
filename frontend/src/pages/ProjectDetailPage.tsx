@@ -3,10 +3,10 @@ import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 import TimelinePanel from "../components/ProjectDetail/timeline/TimelinePanel";
 import ProjectForms from "../components/ProjectDetail/ProjectForms";
-import useProjectMember from "../hooks/useProjectMember";
-import useTimelineEvents from "../hooks/useTimelineEvents";
-import useTimeline from "../hooks/useTimeline";
-import useProject from "../hooks/useProject";
+import useProjectMember from "../hooks/gets/useProjectMember";
+import useTimelineEvents from "../hooks/gets/useTimelineEvents";
+import useTimeline from "../hooks/gets/useTimeline";
+import useProject from "../hooks/gets/useProject";
 
 const ProjectDetailPage: React.FC = () => {
   const { projectMemberId } = useParams();

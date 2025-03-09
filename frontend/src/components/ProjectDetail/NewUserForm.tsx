@@ -9,7 +9,7 @@ import {
   InputLabel,
   Typography,
 } from "@mui/material";
-import useUserRoleForm from "../../hooks/useNewUser";
+import useUserRoleForm from "../../hooks/posts/useNewUser";
 
 const UserRoleForm = ({ projectId }: { projectId: number | undefined }) => {
   const { formData, handleChange, handleSubmit } = useUserRoleForm({

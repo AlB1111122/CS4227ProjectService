@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import ProjectCard from "../components/projectDashboard/ProjectCard";
 import NewProjectForm from "../components/projectDashboard/NewProjectForm";
 import Header from "../components/Header";
-import useUserProjects from "../hooks/useUserProjects";
+import useUserProjects from "../hooks/gets/useUserProjects";
 
 const ProjectsPage: React.FC = () => {
   const { userId } = useParams();

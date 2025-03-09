@@ -10,8 +10,8 @@ import {
 } from "@mui/material";
 import { Event } from "../../../types";
 import { AttachFile, Delete } from "@mui/icons-material";
-import { useEventUpdate } from "../../../hooks/useEventUpdate"; // Import the custom hook
-import { useEventDelete } from "../../../hooks/useEventDelete"; // Import the custom hook
+import { useEventUpdate } from "../../../hooks/patches/useEventUpdate"; // Import the custom hook
+import { useEventDelete } from "../../../hooks/deletes/useEventDelete"; // Import the custom hook
 
 const EventEditForm = ({ event }: { event: Event }) => {
   const [formData, setFormData] = useState({ ...event });
