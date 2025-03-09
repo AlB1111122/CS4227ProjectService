@@ -1,18 +1,12 @@
-import React, { useState } from "react";
-import { API_SERVER } from "../../../consts";
+import React from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
+import useNewEventProcessFormData from "../../../hooks/useNewEventProcessFormData";
+import useFileUpload from "../../../hooks/useFileUpload";
+import useSubmitEvent from "../../../hooks/useNewEvent";
 
 const NewEventForm = ({ timelineId }: { timelineId: number | undefined }) => {
-  const [selectedFiles, setSelectedFiles] = useState<File[] | null>(null);
-
-  const handleFileChange = (e: { target: { files: any } }) => {
-    const files = e.target.files;
-    if (files) {
-      setSelectedFiles(files);
-    }
-  };
-
-  const [formData, setFormData] = useState({
+  const { selectedFiles, handleFileChange } = useFileUpload();
+  const { formData, handleChange } = useNewEventProcessFormData({
     start_date: "",
     end_date: "",
     name: "",
@@ -23,40 +17,11 @@ const NewEventForm = ({ timelineId }: { timelineId: number | undefined }) => {
     type: null,
   });
 
-  const handleChange = (e: { target: { name: any; value: any } }) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  const { submitEvent, loading, error, success } = useSubmitEvent(formData);
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    const dataToSend = {
-      ...formData,
-      financial_impact: formData.financial_impact,
-    };
-
-    try {
-      const response = await fetch(API_SERVER + "event/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(dataToSend),
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        console.log("Success:", result);
-      } else {
-        console.error("Error:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    submitEvent();
   };
 
   return (
@@ -148,7 +113,7 @@ const NewEventForm = ({ timelineId }: { timelineId: number | undefined }) => {
           </Button>
         </label>
 
-        {selectedFiles && ( //not integrated with doc service, does nothing
+        {selectedFiles && (
           <Typography mt={2}>
             Selected File: {selectedFiles[0].name} (
             {(selectedFiles[0].size / 1024).toFixed(2)} KB)
@@ -156,9 +121,21 @@ const NewEventForm = ({ timelineId }: { timelineId: number | undefined }) => {
         )}
       </div>
 
-      <Button type="submit" variant="contained" color="primary">
-        Submit
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        disabled={loading}
+      >
+        {loading ? "Submitting..." : "Submit"}
       </Button>
+
+      {error && <Typography color="error">{error}</Typography>}
+      {success && (
+        <Typography color="success.main">
+          Event Created Successfully!
+        </Typography>
+      )}
     </Box>
   );
 };

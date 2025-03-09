@@ -10,18 +10,19 @@ import {
 } from "@mui/material";
 import { Event } from "../../../types";
 import { AttachFile, Delete } from "@mui/icons-material";
-import { API_SERVER } from "../../../consts";
+import { useEventUpdate } from "../../../hooks/useEventUpdate"; // Import the custom hook
+import { useEventDelete } from "../../../hooks/useEventDelete"; // Import the custom hook
 
 const EventEditForm = ({ event }: { event: Event }) => {
   const [formData, setFormData] = useState({ ...event });
 
-  const handleChange = (e: { target: { name: any; value: any } }) => {
+  const handleChange = (e: { target: { name: string; value: string } }) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const getUpdatedFields = () => {
-    const updatedFields = {};
+    const updatedFields: any = {};
     Object.keys(formData).forEach((key) => {
       // @ts-ignore
       if (formData[key] !== event[key]) {
@@ -32,42 +33,30 @@ const EventEditForm = ({ event }: { event: Event }) => {
     return updatedFields;
   };
 
+  const {
+    updateEvent,
+    loading: updating,
+    error: updateError,
+  } = useEventUpdate(event.id);
+  const {
+    deleteEvent,
+    loading: deleting,
+    error: deleteError,
+  } = useEventDelete(event.id);
+
   const onSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     const updatedFields = getUpdatedFields();
-    console.log(JSON.stringify(updatedFields));
     if (Object.keys(updatedFields).length === 0) {
       console.log("No changes detected.");
       return;
     }
 
-    try {
-      const response = await fetch(`${API_SERVER}event/${event.id}/`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedFields),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to update event");
-      }
-    } catch (error) {
-      console.error("Error updating event:", error);
-    }
+    await updateEvent(updatedFields);
   };
 
   const onDelete = async () => {
-    try {
-      const response = await fetch(`${API_SERVER}event/${event.id}/`, {
-        method: "DELETE",
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to delete event");
-      }
-    } catch (error) {
-      console.error("Error deleting event:", error);
-    }
+    await deleteEvent();
   };
 
   return (
@@ -149,8 +138,9 @@ const EventEditForm = ({ event }: { event: Event }) => {
                 variant="contained"
                 color="primary"
                 type="submit"
+                disabled={updating}
               >
-                Submit Changes
+                {updating ? "Submitting..." : "Submit Changes"}
               </Button>
             </Grid>
             <Grid item xs={6}>
@@ -160,12 +150,14 @@ const EventEditForm = ({ event }: { event: Event }) => {
                 color="error"
                 startIcon={<Delete />}
                 onClick={onDelete}
+                disabled={deleting}
               >
-                Delete Event
+                {deleting ? "Deleting..." : "Delete Event"}
               </Button>
             </Grid>
           </Grid>
         </form>
+        {(updateError || deleteError) && <p>{updateError || deleteError}</p>}
       </CardContent>
     </Card>
   );

@@ -21,35 +21,23 @@ const ProjectDetailPage: React.FC = () => {
     error: errorPM,
   } = useProjectMember(projectMemberId);
 
-  if (!projectMember) {
-    return <p>Error: Project Member not found or invalid ID</p>;
-  }
-
   const {
     project,
     loading: loadingProject,
     error: errorProject,
-  } = useProject(projectMember.project_id);
-
-  if (!project || project.timeline == null) {
-    return <p>Error: Timeline not found or invalid ID</p>;
-  }
+  } = useProject(projectMember?.project_id);
 
   const {
     timeline,
     loading: loadingTimeline,
     error: errorTimeline,
-  } = useTimeline(project.timeline);
-
-  if (!timeline) {
-    return <p>Error: Timeline not found or invalid timeline ID</p>;
-  }
+  } = useTimeline(project?.timeline);
 
   const {
     events,
     loading: loadingEvents,
     error: errorEvents,
-  } = useTimelineEvents(timeline.id);
+  } = useTimelineEvents(timeline?.id);
 
   const isLoading =
     loadingPM || loadingProject || loadingTimeline || loadingEvents;
