@@ -1,31 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Box } from "@mui/material";
-import { ProjectWRolePMId } from "../types";
-import ProjectCard from "../components/projectDashboard/ProjectCard";
-import { API_SERVER } from "../consts";
-import NewProjectForm from "../components/projectDashboard/NewProjectForm";
 import { useParams } from "react-router-dom";
+import ProjectCard from "../components/projectDashboard/ProjectCard";
+import NewProjectForm from "../components/projectDashboard/NewProjectForm";
 import Header from "../components/Header";
+import useProjects from "../hooks/getUserProjects";
 
 const ProjectsPage: React.FC = () => {
-  const [projects, setProjects] = useState<ProjectWRolePMId[]>([]);
   const { userId } = useParams();
 
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await fetch(
-          API_SERVER + "/project_member/" + userId + "/projects_roles/"
-        );
-        const data = await response.json();
-        setProjects(data);
-      } catch (error) {
-        console.error("Error fetching projects:", error);
-      }
-    };
+  if (userId == undefined) {
+    return <p>Error: malformed URL, no user found</p>;
+  }
 
-    fetchProjects();
-  }, []);
+  const { projects, loading, error } = useProjects(userId);
+
+  if (loading) return <p>Loading projects...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div
