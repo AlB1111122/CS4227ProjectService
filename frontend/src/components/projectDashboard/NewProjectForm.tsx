@@ -1,74 +1,31 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Card, TextField } from "@mui/material";
-import { API_SERVER } from "../../consts";
+import useNewProjectForm from "../../hooks/useNewProject"; // Import the custom hook
 
 interface NewProjectFormProps {
   user?: string;
 }
+
 const NewProjectForm: React.FC<NewProjectFormProps> = ({ user }) => {
-  const [newProjectName, setNewProjectName] = useState<string>("");
-  const [newProjectDescription, setNewProjectDescription] =
-    useState<string>("");
-  const [newProjectStartDate, setNewProjectStartDate] = useState<string>("");
-  const [newProjectEndDate, setNewProjectEndDate] = useState<string>("");
-
-  const handleAddProject = async () => {
-    var newProject = null;
-    if (newProjectStartDate == "") {
-      newProject = {
-        name: newProjectName,
-        description: newProjectDescription,
-        timeline: null,
-      };
-    } else {
-      newProject = {
-        name: newProjectName,
-        description: newProjectDescription,
-        timeline: null,
-        timeline_start: newProjectStartDate,
-        timeline_end: newProjectEndDate,
-      };
-    }
-
-    try {
-      const response = await fetch(API_SERVER + "project/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newProject),
-      });
-
-      if (!response.ok) {
-        console.error("Error adding project");
-      } else {
-        const body = await response.json();
-        const newMember = {
-          user_id: user,
-          role: "OWNER",
-          project_id: body.id,
-        };
-        // @ts-ignore
-        const memberResponse = await fetch(API_SERVER + "project_member/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newMember),
-        });
-      }
-    } catch (error) {
-      console.error("Error adding project:", error);
-    }
-  };
+  const {
+    newProjectName,
+    setNewProjectName,
+    newProjectDescription,
+    setNewProjectDescription,
+    newProjectStartDate,
+    setNewProjectStartDate,
+    newProjectEndDate,
+    setNewProjectEndDate,
+    handleAddProject,
+  } = useNewProjectForm(user);
 
   return (
     <div>
       <Card
         sx={{
-          maxWidth: "50%", // Set a fixed or responsive width
+          maxWidth: "50%",
           width: "50%",
-          mx: "auto", // Center the box
+          mx: "auto",
           mt: 4,
           display: "flex",
           flexDirection: "column",
@@ -100,7 +57,7 @@ const NewProjectForm: React.FC<NewProjectFormProps> = ({ user }) => {
           value={newProjectStartDate}
           onChange={(e) => setNewProjectStartDate(e.target.value)}
           InputLabelProps={{
-            shrink: true, // Make sure the label is shrunk when the user selects a date
+            shrink: true,
           }}
         />
         <TextField
@@ -110,7 +67,7 @@ const NewProjectForm: React.FC<NewProjectFormProps> = ({ user }) => {
           value={newProjectEndDate}
           onChange={(e) => setNewProjectEndDate(e.target.value)}
           InputLabelProps={{
-            shrink: true, // Make sure the label is shrunk when the user selects a date
+            shrink: true,
           }}
         />
         <Button variant="contained" color="primary" onClick={handleAddProject}>
