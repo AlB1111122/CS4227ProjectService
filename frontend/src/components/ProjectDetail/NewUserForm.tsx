@@ -1,53 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-  TextField,
+  Box,
   Button,
+  TextField,
   MenuItem,
   Select,
   FormControl,
   InputLabel,
-  Box,
   Typography,
-  SelectChangeEvent,
 } from "@mui/material";
-import { API_SERVER } from "../../consts";
+import useUserRoleForm from "../../hooks/useNewUser";
 
 const UserRoleForm = ({ projectId }: { projectId: number | undefined }) => {
-  const [formData, setFormData] = useState({
+  const { formData, handleChange, handleSubmit } = useUserRoleForm({
     user_id: "",
     role: "",
     project_id: projectId,
   });
-
-  const handleChange = (
-    event:
-      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-      | SelectChangeEvent
-  ) => {
-    const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name as string]: value }));
-  };
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    try {
-      const response = await fetch(API_SERVER + "project_member/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        console.log("Success:", result);
-      } else {
-        console.error("Error:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
 
   return (
     <Box
