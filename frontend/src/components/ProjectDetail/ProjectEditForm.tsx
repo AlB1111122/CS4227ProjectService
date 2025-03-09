@@ -1,55 +1,11 @@
-import React, { useState } from "react";
-import { TextField, Button, Box, Typography } from "@mui/material";
-import { API_SERVER } from "../../consts";
+import React from "react";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { Delete } from "@mui/icons-material";
+import useEditProjectForm from "../../hooks/useEditProject";
 
-const EditProjectForm = ({ projectId }: { projectId: number | undefined }) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-  });
-
-  const handleChange = (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>
-  ) => {
-    const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name as string]: value }));
-  };
-
-  const onDelete = async () => {
-    try {
-      const response = await fetch(`${API_SERVER}project/${projectId}/`, {
-        method: "DELETE",
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to delete event");
-      }
-    } catch (error) {
-      console.error("Error deleting event:", error);
-    }
-  };
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    try {
-      const response = await fetch(API_SERVER + `project/${projectId}/`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        console.log("Success:", result);
-      } else {
-        console.error("Error:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+const EditProjectForm = ({ projectId }: { projectId: number }) => {
+  const { formData, handleChange, handleSubmit, onDelete } =
+    useEditProjectForm(projectId);
 
   return (
     <Box
@@ -99,7 +55,7 @@ const EditProjectForm = ({ projectId }: { projectId: number | undefined }) => {
         startIcon={<Delete />}
         onClick={onDelete}
       >
-        Delete Event
+        Delete Project
       </Button>
     </Box>
   );
