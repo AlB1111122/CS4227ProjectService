@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import ProjectCard from "../components/projectDashboard/ProjectCard";
 import NewProjectForm from "../components/projectDashboard/NewProjectForm";
 import Header from "../components/Header";
-import useProjects from "../hooks/getUserProjects";
+import useUserProjects from "../hooks/useUserProjects";
 
 const ProjectsPage: React.FC = () => {
   const { userId } = useParams();
@@ -13,7 +13,7 @@ const ProjectsPage: React.FC = () => {
     return <p>Error: malformed URL, no user found</p>;
   }
 
-  const { projects, loading, error } = useProjects(userId);
+  const { projects, loading, error } = useUserProjects(userId);
 
   if (loading) return <p>Loading projects...</p>;
   if (error) return <p>Error: {error}</p>;

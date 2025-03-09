@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ProjectWRolePMId } from "../types";
 import { API_SERVER } from "../consts";
 
-const getUserProjects = (userId: string) => {
+const useUserProjects = (userId: string) => {
   const [projects, setProjects] = useState<ProjectWRolePMId[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -29,4 +29,4 @@ const getUserProjects = (userId: string) => {
   return { projects, loading, error };
 };
 
-export default getUserProjects;
+export default useUserProjects;

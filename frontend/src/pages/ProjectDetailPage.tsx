@@ -1,90 +1,93 @@
-import React, { useEffect, useState } from "react";
-import { ProjectMember, Timeline_t, Event, Project } from "../types";
-import { API_SERVER } from "../consts";
+import React from "react";
 import { useParams } from "react-router-dom";
-import TimelinePanel from "../components/ProjectDetail/timeline/TimelinePanel";
 import Header from "../components/Header";
+import TimelinePanel from "../components/ProjectDetail/timeline/TimelinePanel";
 import ProjectForms from "../components/ProjectDetail/ProjectForms";
+import useProjectMember from "../hooks/useProjectMember";
+import useTimelineEvents from "../hooks/useTimelineEvents";
+import useTimeline from "../hooks/useTimeline";
+import useProject from "../hooks/useProject";
 
 const ProjectDetailPage: React.FC = () => {
-  const [projectMember, setProjectMember] = useState<ProjectMember>();
-  const [project, setProject] = useState<Project>();
-  const [timeline, setTimeline] = useState<Timeline_t>();
-  const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(true);
   const { projectMemberId } = useParams();
 
-  useEffect(() => {
-    const fetchProject = async () => {
-      try {
-        const response = await fetch(
-          API_SERVER + "project_member/" + projectMemberId + "/"
-        );
-        const dataPM: ProjectMember = await response.json();
-        setProjectMember(dataPM);
-        console.log(dataPM);
-
-        const responseProject = await fetch(
-          API_SERVER + "project/" + dataPM.project_id + "/"
-        );
-        const dataProject: Project = await responseProject.json();
-        setProject(dataProject);
-        console.log(dataProject);
-
-        const responseTimeline = await fetch(
-          API_SERVER + "timeline/" + dataProject.timeline + "/"
-        );
-        const dataTimeline: Timeline_t = await responseTimeline.json();
-        setTimeline(dataTimeline);
-        console.log(dataTimeline);
-
-        const responseEvents = await fetch(
-          API_SERVER + "event/by_project/?timeline_id=" + dataTimeline.id
-        );
-        const dataEv: Event[] = await responseEvents.json();
-
-        dataEv.sort(
-          (a, b) =>
-            new Date(a.start_date).getTime() - new Date(b.start_date).getTime()
-        );
-        setEvents(dataEv);
-        console.log(dataEv);
-      } catch (error) {
-        console.error("Error fetching project:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProject();
-  }, []);
-  if (!loading) {
-    return (
-      <div>
-        <Header main={project?.name} sub={project?.description} />
-        <div
-          style={{
-            width: "100%",
-            flexGrow: 1,
-            flexDirection: "column",
-            overflow: "hidden",
-            overflowY: "scroll",
-          }}
-        >
-          <TimelinePanel
-            events={events}
-            timeline={timeline}
-            editPermission={
-              projectMember?.role == "OWNER" || projectMember?.role == "EDITOR"
-            }
-          />
-        </div>
-        {projectMember && timeline ? (
-          <ProjectForms role={projectMember.role} id={timeline.id} />
-        ) : null}
-      </div>
-    );
+  if (!projectMemberId) {
+    return <p>Error: malformed URL, no project member found</p>;
   }
+
+  const {
+    projectMember,
+    loading: loadingPM,
+    error: errorPM,
+  } = useProjectMember(projectMemberId);
+
+  if (!projectMember) {
+    return <p>Error: Project Member not found or invalid ID</p>;
+  }
+
+  const {
+    project,
+    loading: loadingProject,
+    error: errorProject,
+  } = useProject(projectMember.project_id);
+
+  if (!project || project.timeline == null) {
+    return <p>Error: Timeline not found or invalid ID</p>;
+  }
+
+  const {
+    timeline,
+    loading: loadingTimeline,
+    error: errorTimeline,
+  } = useTimeline(project.timeline);
+
+  if (!timeline) {
+    return <p>Error: Timeline not found or invalid timeline ID</p>;
+  }
+
+  const {
+    events,
+    loading: loadingEvents,
+    error: errorEvents,
+  } = useTimelineEvents(timeline.id);
+
+  const isLoading =
+    loadingPM || loadingProject || loadingTimeline || loadingEvents;
+  const error = errorPM || errorProject || errorTimeline || errorEvents;
+
+  if (isLoading) {
+    return <p>Loading project details...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
+
+  return (
+    <div>
+      <Header main={project?.name} sub={project?.description} />
+      <div
+        style={{
+          width: "100%",
+          flexGrow: 1,
+          flexDirection: "column",
+          overflow: "hidden",
+          overflowY: "scroll",
+        }}
+      >
+        <TimelinePanel
+          events={events}
+          timeline={timeline}
+          editPermission={
+            projectMember.role === "OWNER" || projectMember.role === "EDITOR"
+          }
+        />
+      </div>
+      {projectMember && timeline && (
+        <ProjectForms role={projectMember.role} id={timeline.id} />
+      )}
+    </div>
+  );
 };
 
 export default ProjectDetailPage;
