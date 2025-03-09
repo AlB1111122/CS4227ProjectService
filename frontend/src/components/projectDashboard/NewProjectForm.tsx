@@ -3,7 +3,7 @@ import { Button, Card, TextField } from "@mui/material";
 import { API_SERVER } from "../../consts";
 
 interface NewProjectFormProps {
-  user?: string; // user can be a string or undefined
+  user?: string;
 }
 const NewProjectForm: React.FC<NewProjectFormProps> = ({ user }) => {
   const [newProjectName, setNewProjectName] = useState<string>("");

@@ -4,10 +4,7 @@ import { API_SERVER } from "../consts";
 import { useParams } from "react-router-dom";
 import TimelinePanel from "../components/ProjectDetail/timeline/TimelinePanel";
 import Header from "../components/Header";
-import NewEventForm from "../components/ProjectDetail/timeline/NewEventForm";
-import NewUserForm from "../components/ProjectDetail/NewUserForm";
-import { Stack } from "@mui/material";
-import EditProjectForm from "../components/ProjectDetail/ProjectEditForm";
+import ProjectForms from "../components/ProjectDetail/ProjectForms";
 
 const ProjectDetailPage: React.FC = () => {
   const [projectMember, setProjectMember] = useState<ProjectMember>();
@@ -82,17 +79,9 @@ const ProjectDetailPage: React.FC = () => {
             }
           />
         </div>
-        <Stack direction={"row"} width={"100%"} paddingTop={1}>
-          {projectMember?.role == "OWNER" || projectMember?.role == "EDITOR" ? (
-            <NewEventForm timelineId={timeline?.id} />
-          ) : null}
-          {projectMember?.role == "OWNER" ? (
-            <Stack direction={"column"} width={"100%"} maxHeight={"100%"}>
-              <NewUserForm projectId={project?.id} />
-              <EditProjectForm projectId={project?.id} />
-            </Stack>
-          ) : null}
-        </Stack>
+        {projectMember && timeline ? (
+          <ProjectForms role={projectMember.role} id={timeline.id} />
+        ) : null}
       </div>
     );
   }
