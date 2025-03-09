@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Card, TextField } from "@mui/material";
-import useNewProjectForm from "../../hooks/useNewProject"; // Import the custom hook
+import useNewProjectForm from "../../hooks/posts/useNewProject"; // Import the custom hook
 
 interface NewProjectFormProps {
   user?: string;

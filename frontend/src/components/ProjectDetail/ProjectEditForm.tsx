@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { Delete } from "@mui/icons-material";
-import useEditProjectForm from "../../hooks/useEditProject";
+import useEditProjectForm from "../../hooks/patches/useEditProject";
 
 const EditProjectForm = ({ projectId }: { projectId: number }) => {
   const { formData, handleChange, handleSubmit, onDelete } =
