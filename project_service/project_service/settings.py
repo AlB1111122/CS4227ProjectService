@@ -134,3 +134,7 @@ CORS_ALLOWED_ORIGINS = [ #not proper
     "http://0.0.0.0:8002"
 ]
 CORS_ALLOW_ALL_ORIGINS=True
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'ngrok-skip-browser-warning'
+]
