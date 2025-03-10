@@ -67,7 +67,7 @@ const ProjectDetailPage: React.FC = () => {
           events={events}
           timeline={timeline}
           editPermission={
-            projectMember.role === "OWNER" || projectMember.role === "EDITOR"
+            projectMember?.role === "OWNER" || projectMember?.role === "EDITOR"
           }
         />
       </div>

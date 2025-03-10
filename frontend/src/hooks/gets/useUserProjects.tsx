@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { ProjectWRolePMId } from "../types";
-import { API_SERVER } from "../consts";
+import { ProjectWRolePMId } from "../../types";
+import { API_SERVER } from "../../consts";
 
 const useUserProjects = (userId: string) => {
   const [projects, setProjects] = useState<ProjectWRolePMId[]>([]);

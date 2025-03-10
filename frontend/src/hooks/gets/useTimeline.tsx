@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { Timeline_t } from "../types";
-import { API_SERVER } from "../consts";
+import { Timeline_t } from "../../types";
+import { API_SERVER } from "../../consts";
 
-const useTimeline = (timelineId: number) => {
+const useTimeline = (timelineId: number | undefined | null) => {
   const [timeline, setTimeline] = useState<Timeline_t>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

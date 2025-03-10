@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { ProjectMember } from "../types";
-import { API_SERVER } from "../consts";
+import { ProjectMember } from "../../types";
+import { API_SERVER } from "../../consts";
 
 const useProjectMember = (projectMemberId: string) => {
   const [projectMember, setProjectMember] = useState<ProjectMember | null>(

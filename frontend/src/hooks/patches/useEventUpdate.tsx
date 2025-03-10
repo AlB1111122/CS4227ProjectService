@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { API_SERVER } from "../consts";
+import { API_SERVER } from "../../consts";
 
 export const useEventUpdate = (eventId: number) => {
   const [loading, setLoading] = useState(false);

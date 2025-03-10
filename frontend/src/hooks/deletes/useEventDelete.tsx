@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { API_SERVER } from "../consts";
-import { useNavigate } from "react-router";
+import { API_SERVER } from "../../consts";
 
 export const useEventDelete = (eventId: number) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
 
   const deleteEvent = async () => {
     setLoading(true);

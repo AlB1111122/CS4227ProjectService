@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { Project } from "../types";
-import { API_SERVER } from "../consts";
+import { Project } from "../../types";
+import { API_SERVER } from "../../consts";
 
-const useProject = (projectId: number) => {
+const useProject = (projectId: number | undefined) => {
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

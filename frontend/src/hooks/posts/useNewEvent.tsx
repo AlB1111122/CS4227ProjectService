@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { API_SERVER } from "../consts";
+import { API_SERVER } from "../../consts";
 
 const useSubmitEvent = (formData: any) => {
   const [loading, setLoading] = useState(false);
