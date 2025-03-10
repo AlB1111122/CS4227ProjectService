@@ -1,0 +1,64 @@
+# IDE folder
+/.idea
+.vscode
+
+# Office Lockfiles
+~$*
+*.tmp
+.~lock.*
+
+# Test files
+test.*
+*.test.*
+/test
+
+# Output of compiling
+/out
+/build
+/target
+/cmake-build-debug
+# for QT, both as single directory and as subfolders
+/build-*-*
+/*/build-*-*
+
+# Dealing with BlueJ
+*.bluej
+*.out
+*.ctxt
+
+# Dealing with Mac users
+.DS_Store
+
+# Python
+.venv
+#django
+**/db.sqlite3
+migrations/
+__pycache__/
+
+#copy from react gitignore
+node_modules
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
