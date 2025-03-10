@@ -34,6 +34,7 @@ const useUserRoleForm = (initialData: {
       if (response.ok) {
         const result = await response.json();
         console.log("Success:", result);
+        window.location.reload();
       } else {
         console.error("Error:", response.statusText);
       }

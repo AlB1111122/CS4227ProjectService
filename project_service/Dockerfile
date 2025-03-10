@@ -29,4 +29,4 @@ COPY . /app/
 EXPOSE $PRJ_PORT
  
 # Make migrations and run Django’s development server
-CMD python manage.py runserver 0.0.0.0:${PRJ_PORT}
+CMD python3 manage.py makemigrations && python3 manage.py migrate && python manage.py runserver 0.0.0.0:${PRJ_PORT}

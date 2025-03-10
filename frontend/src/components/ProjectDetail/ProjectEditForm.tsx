@@ -15,13 +15,14 @@ const EditProjectForm = ({ projectId }: { projectId: number }) => {
         display: "flex",
         flexDirection: "column",
         gap: 2,
-        margin: "auto",
+        margin: 0,
         padding: 3,
         boxShadow: 3,
         borderRadius: 2,
         backgroundColor: "white",
-        width: "100%",
       }}
+      maxWidth={"100%"}
+      paddingX={0}
     >
       <Typography variant="h5" textAlign="center">
         Edit project
