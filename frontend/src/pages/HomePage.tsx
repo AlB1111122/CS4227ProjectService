@@ -39,7 +39,7 @@ const HomePage: React.FC = () => {
           marginBottom: 3,
         }}
       >
-        Get started by navigating to your projects.
+        Get started by "loging in" navigating to your projects.
       </Typography>
 
       <Button
@@ -55,7 +55,7 @@ const HomePage: React.FC = () => {
           },
         }}
       >
-        Start
+        login
       </Button>
     </Box>
   );
