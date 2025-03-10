@@ -12,7 +12,12 @@ const useProject = (projectId: number | undefined) => {
 
     const fetchProject = async () => {
       try {
-        const response = await fetch(`${API_SERVER}project/${projectId}/`);
+        const response = await fetch(`${API_SERVER}project/${projectId}/`, {
+          method: "get",
+          headers: new Headers({
+            "ngrok-skip-browser-warning": "69420",
+          }),
+        });
         if (!response.ok) throw new Error("Failed to fetch project");
         const data = await response.json();
         setProject(data);

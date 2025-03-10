@@ -12,11 +12,17 @@ const useTimeline = (timelineId: number | undefined | null) => {
 
     const fetchTimeline = async () => {
       try {
-        const response = await fetch(`${API_SERVER}timeline/${timelineId}/`);
+        const response = await fetch(`${API_SERVER}timeline/${timelineId}/`, {
+          method: "get",
+          headers: new Headers({
+            "ngrok-skip-browser-warning": "69420",
+          }),
+        });
         if (!response.ok) throw new Error("Failed to fetch timeline");
         const data = await response.json();
         setTimeline(data);
       } catch (err) {
+        console.log(err);
         setError((err as Error).message);
       } finally {
         setLoading(false);

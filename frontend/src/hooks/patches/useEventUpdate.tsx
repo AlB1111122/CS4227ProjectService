@@ -10,7 +10,10 @@ export const useEventUpdate = (eventId: number) => {
     try {
       const response = await fetch(`${API_SERVER}event/${eventId}/`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "69420",
+        },
         body: JSON.stringify(updatedFields),
       });
 

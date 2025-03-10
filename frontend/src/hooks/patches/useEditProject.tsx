@@ -22,7 +22,10 @@ const useEditProjectForm = (projectId: number) => {
     try {
       const response = await fetch(`${API_SERVER}project/${projectId}/`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "69420",
+        },
         body: JSON.stringify(formData),
       });
 
@@ -42,6 +45,9 @@ const useEditProjectForm = (projectId: number) => {
     try {
       const response = await fetch(`${API_SERVER}project/${projectId}/`, {
         method: "DELETE",
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+        },
       });
 
       if (!response.ok) {

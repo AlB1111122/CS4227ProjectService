@@ -15,7 +15,13 @@ const useProjectMember = (projectMemberId: string) => {
     const fetchProjectMember = async () => {
       try {
         const response = await fetch(
-          `${API_SERVER}project_member/${projectMemberId}/`
+          `${API_SERVER}project_member/${projectMemberId}/`,
+          {
+            method: "get",
+            headers: new Headers({
+              "ngrok-skip-browser-warning": "69420",
+            }),
+          }
         );
         if (!response.ok) throw new Error("Failed to fetch project member");
         const data = await response.json();

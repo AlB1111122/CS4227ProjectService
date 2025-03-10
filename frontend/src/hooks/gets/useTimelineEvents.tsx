@@ -13,7 +13,13 @@ const useTimelineEvents = (timelineId: number | undefined | null) => {
     const fetchEvents = async () => {
       try {
         const response = await fetch(
-          `${API_SERVER}event/by_project/?timeline_id=${timelineId}`
+          `${API_SERVER}event/by_project/?timeline_id=${timelineId}`,
+          {
+            method: "get",
+            headers: new Headers({
+              "ngrok-skip-browser-warning": "69420",
+            }),
+          }
         );
         if (!response.ok) throw new Error("Failed to fetch events");
         const data: Event[] = await response.json();
