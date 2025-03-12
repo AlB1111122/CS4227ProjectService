@@ -53,7 +53,7 @@ const ProjectDetailPage: React.FC = () => {
 
   return (
     <div>
-      <Header main={project?.name} sub={project?.description} />
+      {/* <Header main={project?.name} sub={project?.description} /> */}
       <div
         style={{
           width: "100%",

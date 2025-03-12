@@ -1,13 +1,13 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
-const Header = ({
-  main,
-  sub,
-}: {
-  main: string | undefined;
-  sub: string | undefined;
-}) => {
+const Header = () => {
+  const { title, description } = useSelector(
+    (state: RootState) => state.header
+  );
+
   return (
     <Box
       sx={{
@@ -20,14 +20,14 @@ const Header = ({
       }}
     >
       <Typography variant="h3" component="div" sx={{ textAlign: "left" }}>
-        {main}
+        {title}
       </Typography>
       <Typography
         variant="body2"
         color="text.secondary"
         sx={{ minHeight: "1.2rem" }}
       >
-        {sub}
+        {description}
       </Typography>
     </Box>
   );

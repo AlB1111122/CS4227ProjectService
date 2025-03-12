@@ -26,7 +26,7 @@ const ProjectsPage: React.FC = () => {
         boxSizing: "border-box",
       }}
     >
-      <Header main="Projects" sub="" />
+      {/* <Header main="Projects" sub="" /> */}
       <NewProjectForm user={userId} />
       <Box sx={{ width: "100%", mx: "auto" }}>
         {projects.map((project) => (
