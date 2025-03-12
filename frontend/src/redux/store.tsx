@@ -3,9 +3,8 @@ import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
 const headerSlice = createSlice({
   name: "header",
   initialState: {
-    title: "Home",
-    description:
-      "Standin for login page for prototype. This header uses redux to have its text.",
+    title: "",
+    description: "",
   },
   reducers: {
     setHeader: (

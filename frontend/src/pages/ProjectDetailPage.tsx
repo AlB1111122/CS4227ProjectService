@@ -1,6 +1,5 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import Header from "../components/Header";
 import TimelinePanel from "../components/ProjectDetail/timeline/TimelinePanel";
 import ProjectForms from "../components/ProjectDetail/ProjectForms";
 import useProjectMember from "../hooks/gets/useProjectMember";
@@ -53,7 +52,6 @@ const ProjectDetailPage: React.FC = () => {
 
   return (
     <div>
-      {/* <Header main={project?.name} sub={project?.description} /> */}
       <div
         style={{
           width: "100%",

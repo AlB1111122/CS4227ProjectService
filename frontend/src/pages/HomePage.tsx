@@ -1,10 +1,23 @@
 import { Box, Button, Typography } from "@mui/material";
 import { USER_SIGNED_IN } from "../consts";
 import { useNavigate } from "react-router";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setHeader } from "../redux/store";
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(
+      setHeader({
+        title: "Home",
+        description:
+          "Standin for login page for prototype. This header uses redux to have its text.",
+      })
+    );
+  }, [dispatch]);
 
   return (
     <Box

@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box } from "@mui/material";
 import { useParams } from "react-router-dom";
 import ProjectCard from "../components/projectDashboard/ProjectCard";
 import NewProjectForm from "../components/projectDashboard/NewProjectForm";
-import Header from "../components/Header";
 import useUserProjects from "../hooks/gets/useUserProjects";
+import { useDispatch } from "react-redux";
+import { setHeader } from "../redux/store";
 
 const ProjectsPage: React.FC = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(
+      setHeader({
+        title: "Projects",
+        description: "",
+      })
+    );
+  }, [dispatch]);
+
   const { userId } = useParams();
 
   if (userId == undefined) {
@@ -26,7 +38,6 @@ const ProjectsPage: React.FC = () => {
         boxSizing: "border-box",
       }}
     >
-      {/* <Header main="Projects" sub="" /> */}
       <NewProjectForm user={userId} />
       <Box sx={{ width: "100%", mx: "auto" }}>
         {projects.map((project) => (
