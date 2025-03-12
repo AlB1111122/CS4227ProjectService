@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { Event } from "../../types";
-import { API_SERVER } from "../../consts";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const useTimelineEvents = (timelineId: number | undefined | null) => {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const currentServer = useSelector((state: RootState) => state.server);
 
   useEffect(() => {
     if (!timelineId) return;
@@ -13,7 +15,7 @@ const useTimelineEvents = (timelineId: number | undefined | null) => {
     const fetchEvents = async () => {
       try {
         const response = await fetch(
-          `${API_SERVER}event/by_project/?timeline_id=${timelineId}`,
+          `${currentServer}event/by_project/?timeline_id=${timelineId}`,
           {
             method: "get",
             headers: new Headers({

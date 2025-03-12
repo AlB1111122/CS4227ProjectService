@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { API_SERVER } from "../../consts";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 export const useEventDelete = (eventId: number) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const currentServer = useSelector((state: RootState) => state.server);
 
   const deleteEvent = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${API_SERVER}event/${eventId}/`, {
+      const response = await fetch(`${currentServer}event/${eventId}/`, {
         method: "DELETE",
       });
 

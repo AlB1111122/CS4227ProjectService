@@ -1,13 +1,25 @@
-import { Box, Button, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Typography,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "@mui/material";
 import { USER_SIGNED_IN } from "../consts";
 import { useNavigate } from "react-router";
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { setHeader } from "../redux/store";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setHeader, setServer } from "../redux/store";
+import { RootState } from "../redux/store";
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  // Get the current server state
+  const currentServer = useSelector((state: RootState) => state.server);
+
+  const [server, setServerSelection] = useState<"prd" | "local">("prd");
 
   useEffect(() => {
     dispatch(
@@ -17,7 +29,22 @@ const HomePage: React.FC = () => {
           "Standin for login page for prototype. This header uses redux to have its text.",
       })
     );
-  }, [dispatch]);
+
+    // Initialize the server selection to the current state when the component mounts
+    if (currentServer === "http://0.0.0.0:8002/") {
+      setServerSelection("local");
+    } else {
+      setServerSelection("prd");
+    }
+  }, [dispatch, currentServer]);
+
+  const handleServerChange = (
+    _event: React.MouseEvent<HTMLElement>,
+    newServer: "prd" | "local"
+  ) => {
+    setServerSelection(newServer);
+    dispatch(setServer(newServer)); // Dispatch action to switch server
+  };
 
   return (
     <Box
@@ -52,8 +79,21 @@ const HomePage: React.FC = () => {
           marginBottom: 3,
         }}
       >
-        Get started by "loging in" navigating to your projects.
+        Get started by "logging in" navigating to your projects.
       </Typography>
+
+      {/* Server Switch Toggle */}
+      <ToggleButtonGroup
+        value={server}
+        exclusive
+        onChange={handleServerChange}
+        sx={{ marginBottom: 3 }}
+      >
+        <ToggleButton value="prd" sx={{ marginRight: 2 }}>
+          Production Server
+        </ToggleButton>
+        <ToggleButton value="local">Local Server</ToggleButton>
+      </ToggleButtonGroup>
 
       <Button
         onClick={() => navigate(`/user/${USER_SIGNED_IN}/projects`)}
@@ -68,7 +108,7 @@ const HomePage: React.FC = () => {
           },
         }}
       >
-        login
+        Login
       </Button>
     </Box>
   );

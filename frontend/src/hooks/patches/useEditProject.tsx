@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { API_SERVER } from "../../consts";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 import { useNavigate } from "react-router";
 
 const useEditProjectForm = (projectId: number) => {
@@ -8,6 +9,7 @@ const useEditProjectForm = (projectId: number) => {
     name: "",
     description: "",
   });
+  const currentServer = useSelector((state: RootState) => state.server);
 
   const handleChange = (
     event: React.ChangeEvent<{ name?: string; value: unknown }>
@@ -20,7 +22,7 @@ const useEditProjectForm = (projectId: number) => {
     event.preventDefault();
 
     try {
-      const response = await fetch(`${API_SERVER}project/${projectId}/`, {
+      const response = await fetch(`${currentServer}project/${projectId}/`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -43,7 +45,7 @@ const useEditProjectForm = (projectId: number) => {
 
   const onDelete = async () => {
     try {
-      const response = await fetch(`${API_SERVER}project/${projectId}/`, {
+      const response = await fetch(`${currentServer}project/${projectId}/`, {
         method: "DELETE",
         headers: {
           "ngrok-skip-browser-warning": "69420",

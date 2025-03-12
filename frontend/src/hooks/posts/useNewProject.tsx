@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { API_SERVER } from "../../consts";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const useNewProjectForm = (user?: string) => {
   const [newProjectName, setNewProjectName] = useState<string>("");
@@ -7,6 +8,7 @@ const useNewProjectForm = (user?: string) => {
     useState<string>("");
   const [newProjectStartDate, setNewProjectStartDate] = useState<string>("");
   const [newProjectEndDate, setNewProjectEndDate] = useState<string>("");
+  const currentServer = useSelector((state: RootState) => state.server);
 
   const handleAddProject = async () => {
     let newProject = null;
@@ -28,7 +30,7 @@ const useNewProjectForm = (user?: string) => {
     }
 
     try {
-      const response = await fetch(API_SERVER + "project/", {
+      const response = await fetch(currentServer + "project/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -48,7 +50,7 @@ const useNewProjectForm = (user?: string) => {
         };
 
         // @ts-ignore
-        const memberResponse = await fetch(API_SERVER + "project_member/", {
+        const memberResponse = await fetch(currentServer + "project_member/", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

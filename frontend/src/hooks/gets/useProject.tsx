@@ -1,21 +1,23 @@
 import { useState, useEffect } from "react";
 import { Project } from "../../types";
-import { API_SERVER } from "../../consts";
 import { useDispatch } from "react-redux";
 import { setHeader } from "../../redux/store";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const useProject = (projectId: number | undefined) => {
   const dispatch = useDispatch();
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const currentServer = useSelector((state: RootState) => state.server);
 
   useEffect(() => {
     if (!projectId) return;
 
     const fetchProject = async () => {
       try {
-        const response = await fetch(`${API_SERVER}project/${projectId}/`, {
+        const response = await fetch(`${currentServer}project/${projectId}/`, {
           method: "get",
           headers: new Headers({
             "ngrok-skip-browser-warning": "69420",

@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import { ProjectWRolePMId } from "../../types";
-import { API_SERVER } from "../../consts";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const useUserProjects = (userId: string) => {
   const [projects, setProjects] = useState<ProjectWRolePMId[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const currentServer = useSelector((state: RootState) => state.server);
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         const response = await fetch(
-          `${API_SERVER}project_member/${userId}/projects_roles/`,
+          `${currentServer}project_member/${userId}/projects_roles/`,
           {
             method: "get",
             headers: new Headers({

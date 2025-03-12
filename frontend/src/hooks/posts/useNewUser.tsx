@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { API_SERVER } from "../../consts";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 import { SelectChangeEvent } from "@mui/material";
 
 const useUserRoleForm = (initialData: {
@@ -8,6 +9,7 @@ const useUserRoleForm = (initialData: {
   project_id: number | undefined;
 }) => {
   const [formData, setFormData] = useState(initialData);
+  const currentServer = useSelector((state: RootState) => state.server);
 
   const handleChange = (
     event:
@@ -22,7 +24,7 @@ const useUserRoleForm = (initialData: {
     event.preventDefault();
 
     try {
-      const response = await fetch(API_SERVER + "project_member/", {
+      const response = await fetch(currentServer + "project_member/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

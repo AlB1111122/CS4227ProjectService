@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ProjectMember } from "../../types";
-import { API_SERVER } from "../../consts";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const useProjectMember = (projectMemberId: string) => {
   const [projectMember, setProjectMember] = useState<ProjectMember | null>(
@@ -8,6 +9,7 @@ const useProjectMember = (projectMemberId: string) => {
   );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const currentServer = useSelector((state: RootState) => state.server);
 
   useEffect(() => {
     if (!projectMemberId) return;
@@ -15,7 +17,7 @@ const useProjectMember = (projectMemberId: string) => {
     const fetchProjectMember = async () => {
       try {
         const response = await fetch(
-          `${API_SERVER}project_member/${projectMemberId}/`,
+          `${currentServer}project_member/${projectMemberId}/`,
           {
             method: "get",
             headers: new Headers({
