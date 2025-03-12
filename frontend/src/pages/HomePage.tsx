@@ -16,25 +16,30 @@ const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // Get the current server state
   const currentServer = useSelector((state: RootState) => state.server);
 
   const [server, setServerSelection] = useState<"prd" | "local">("prd");
+  const [serverMsg, setServerMsg] = useState("");
 
   useEffect(() => {
     dispatch(
       setHeader({
         title: "Home",
         description:
-          "Standin for login page for prototype. This header uses redux to have its text.",
+          "Standin for login page for prototype. This header uses redux to change its text.",
       })
     );
 
-    // Initialize the server selection to the current state when the component mounts
     if (currentServer === "http://0.0.0.0:8002/") {
       setServerSelection("local");
+      setServerMsg(
+        "To use this setting launch the backend on your local machine with the docker compose (port 8002)"
+      );
     } else {
       setServerSelection("prd");
+      setServerMsg(
+        "To use this setting send an email to 21338787@studentmail.ul.ie asking me to turn the remote sever on"
+      );
     }
   }, [dispatch, currentServer]);
 
@@ -43,7 +48,7 @@ const HomePage: React.FC = () => {
     newServer: "prd" | "local"
   ) => {
     setServerSelection(newServer);
-    dispatch(setServer(newServer)); // Dispatch action to switch server
+    dispatch(setServer(newServer));
   };
 
   return (
@@ -53,10 +58,9 @@ const HomePage: React.FC = () => {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        width: "100%",
-        height: "100vh",
         boxSizing: "border-box",
         padding: 3,
+        paddingTop: 25,
       }}
     >
       <Typography
@@ -71,18 +75,6 @@ const HomePage: React.FC = () => {
         Project management microservice prototype
       </Typography>
 
-      <Typography
-        variant="h6"
-        sx={{
-          color: "#666",
-          textAlign: "center",
-          marginBottom: 3,
-        }}
-      >
-        Get started by "logging in" navigating to your projects.
-      </Typography>
-
-      {/* Server Switch Toggle */}
       <ToggleButtonGroup
         value={server}
         exclusive
@@ -94,6 +86,27 @@ const HomePage: React.FC = () => {
         </ToggleButton>
         <ToggleButton value="local">Local Server</ToggleButton>
       </ToggleButtonGroup>
+      <Typography
+        variant="h6"
+        sx={{
+          color: "#666",
+          textAlign: "center",
+          marginBottom: 3,
+        }}
+      >
+        {serverMsg}
+      </Typography>
+
+      <Typography
+        variant="h6"
+        sx={{
+          color: "#666",
+          textAlign: "center",
+          marginBottom: 3,
+        }}
+      >
+        Get started by "logging in" navigating to your projects.
+      </Typography>
 
       <Button
         onClick={() => navigate(`/user/${USER_SIGNED_IN}/projects`)}
